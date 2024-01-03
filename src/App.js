@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { createContext, useRef, useState } from 'react';
+import { createContext, useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router';
 import ProfileDropdown from './components/ProfileDropdown';
 function App() {
@@ -14,7 +14,7 @@ function App() {
   {
       user && <> 
         <div className="profiledropdown">
-          <ProfileDropdown />
+          <ProfileDropdown/>
         </div>
         </>
     }
