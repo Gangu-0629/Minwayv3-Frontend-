@@ -1,38 +1,340 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Doodle+Shadow&display=swap');
+
+
+:root {
+  --color: red;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  background-color: red;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+
+.appcont {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  background-color: rgb(224, 20, 183);
+  justify-content: center;
+  align-items: center;
+
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.signincont {
+  width: 80%;
+  height: 80%;
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.homeCont {
+  width: 80%;
+  height: 80%;
+
+  background: rgba(255, 255, 255, 0.37);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(9.2px);
+  -webkit-backdrop-filter: blur(9.2px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.gamecont{
+  width: 80%;
+  height: 90%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+   background-color: rgba(0, 0, 0, 0.45); 
+  box-shadow: 0px 0px 30px 0 rgb(0, 0, 0);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 10px; 
+  justify-content: space-evenly;
+  align-items: center;
+
+}
+
+
+.board {
+  width:80%;
+  height: 80%;
+ padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  flex-wrap: nowrap;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+gap: 10px;
+}
+
+.rowboxes {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.boxes {
+  width: 50px;
+  height: 40px;
+  display: flex;
+  background-color: rgb(255, 255, 255);
+  justify-content: center;
+  align-items: center;
+  border-radius: 10%;
+}
+
+
+@media (orientation: portrait) {
+
+  .gamecont {
+    width:95%;
+    flex-direction: column;
+  }
+
+  .board {
+    width: 100%;
+    height: 80%;
+    gap: 5px;
+  }
+
+  .rowboxes {
+    flex-wrap: nowrap;
+    gap: 2px;
+  }
+
+  .boxes {
+    width: 30px;
+    height: 30px;
+
+  }
+
+  .appcont {
+    max-height: fit-content;
+  }
+
+  .homeCont {
+    width: 100vw;
+  }
+}
+
+@media (min-width:600px) and (max-width:1096px) {
+  .boxes {
+    width: 40px;
+    height: 40px;
+
+  }
+
+  .rowboxes {
+    gap: 0px;
+  }
+
+  .board {
+    gap: 0px;
+  }
+}
+
+.Maincontainer {
+  width: 100vw;
+  height: 100vh;
+  background: url("./Assets/MainBackground_1.jpeg");
+  background-repeat: no-repeat;
+  background-size: 100vw 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.signincont {
+  width: 50%;
+  height: 70%;
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0px 0px 30px 0 rgb(0, 0, 0);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logincont {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.picont {
+  width: 50%;
+  height: 100%;
+  background: url("./Assets/Boy_1.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+}
+
+.registercon {
   color: white;
+  width: 50%;
+  height: 70%;
+  background: rgba(0, 0, 0, 0.45);
+  box-shadow: 0px 0px 30px 0 rgba(144, 144, 144, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+.picont2 {
+  width: 50%;
+  height: 100%;
+  background: url("./Assets/Boy_2.png");
+  background-repeat: no-repeat;
+  background-size: 100% 90%;
+  background-position: center;
+
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.levelCont {
+  color: white;
+  width: 50%;
+  height: 70%;
+  color: white;
+  width: 50%;
+  height: 70%;
+  background: rgba(124, 124, 124, 0.45);
+  box-shadow: 0px 0px 30px 0 rgba(144, 144, 144, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  -webkit-animation: scale-in-hor-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: scale-in-hor-center 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  
+}
+
+.levelButton {
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0px 0px 30px 0 rgba(144, 144, 144, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  width: 15%;
+  height: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+}
+
+.levelButton:hover {
+  scale: 1.1;
+  cursor: pointer;
+}
+
+
+
+
+
+
+@media (max-width:1000px) {
+
+  .signincont,
+  .registercon,
+  .levelCont {
+    width: 95vw;
   }
-  to {
-    transform: rotate(360deg);
+
+  .levelButton {
+    width: 20%;
+    height: 20%;
   }
+
+  .picont2,
+  .picont {
+    display: none;
+  }
+
+  .logincont {
+    width: 90%;
+  }
+
+  label {
+    font-size: 30px;
+  }
+
+}
+/* ----------------------------------------------
+ * Generated by Animista on 2024-1-2 19:46:25
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation scale-in-hor-center
+ * ----------------------------------------
+ */
+ @-webkit-keyframes scale-in-hor-center {
+  0% {
+    -webkit-transform: scaleX(0);
+            transform: scaleX(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 1;
+  }
+}
+@keyframes scale-in-hor-center {
+  0% {
+    -webkit-transform: scaleX(0);
+            transform: scaleX(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+            transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+
+.profiledropdown{
+  margin: 20px;
+  position: absolute;
+  right:0;
+  top:0;
+}
+
+.presentbuttonstyle{
+  background: url("./Assets/Boy_2.png");
+  background-repeat: no-repeat;
+  background-size: 100% 90%;
+  background-position: center;
 }
