@@ -10,6 +10,7 @@ import Home from './components/Home';
 import Signup_in from './components/Signup_in';
 import Register from './components/Register';
 import Levelshower from './components/Levelshower';
+import ForgotPassword from './components/ForgotPassword';
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +23,10 @@ const routes = createBrowserRouter([
       {
         path: "register",
         element: <Register />
+      },
+      {
+        path: "changePassword",
+        element: <ForgotPassword />
       },
       {
         path: "levelshow",

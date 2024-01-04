@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 
 export default function Gameboard() {
 
-
+   
     const location = useLocation();
     const n = location.state.n;
     const arr = location.state.arr;
+    const [attempt,setAttempt]=useState(location.state.attempts);
     const navigate=useNavigate();
     arr[0]=0;
     const [path, setPath] = useState([0]);
@@ -18,7 +19,7 @@ export default function Gameboard() {
         setPath([0]);
         setpres(0);
         setScore(0);
-    }, arr);
+    }, [arr,attempt]);
    
    console.log("score ",score);
     const FinalScore=useMemo(()=>{
@@ -156,8 +157,16 @@ export default function Gameboard() {
                     navigate("/levelshow" );
                 }
                 else{
-                    console.log("Failure");
-                    navigate("/game",{state:{n:n,arr:arr}});
+                    
+                    console.log("Failure attempt : ",attempt);
+                    if(attempt==1){
+                        console.log("Attempt over");
+                        navigate("/levelshow");
+
+                    }
+                    else{
+                        setAttempt((prev)=>prev-1);
+                    }
                 }
             }
         }
