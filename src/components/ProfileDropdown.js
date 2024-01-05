@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom'
 
 export default function ProfileDropdown(props) {
   const navigate = useNavigate();
-
   return (
     <div>
       <Dropdown>
@@ -22,7 +21,6 @@ export default function ProfileDropdown(props) {
           <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-
     </div>
   )
 }

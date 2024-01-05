@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import Api from '../Services/Api';
 
 export default function Levelshower() {
@@ -34,19 +34,19 @@ export default function Levelshower() {
       navigate("/");
     }
   }
-  useEffect(() => { Getuser() }, [])
+  useEffect(() => { Getuser() }, [location])
   function level() {
     let content = [];
     for (let i = 1; i <= 10; i++) {
 
       if (i <= prelevel) {
-        content.push(<> <div style={{ background: " rgba(26, 255, 0, 0.45)" }} onClick={() => { handle(i) }} className="levelButton"> {i}</div>
+        content.push(<> <div key={i} style={{ background: " rgba(26, 255, 0, 0.45)" }} onClick={() => { handle(i) }} className="levelButton"> {i}</div>
         </>
         )
       }
       else {
         content.push(
-          <> <div /*style={{animation:`animate-${(Math.floor(Math.random() * 2))+1} 1.1s both `}}*/ onClick={() => {
+          <> <div key={i} /*style={{animation:`animate-${(Math.floor(Math.random() * 2))+1} 1.1s both `}}*/ onClick={() => {
             handle(i)
           }} className="levelButton"> {i}</div>
           </>
@@ -60,12 +60,17 @@ export default function Levelshower() {
     // if(last!=i-1){
     //   return;
     // }
+    if(i>{level}+1){
+      return;
+    }else{
     console.log(i);
     n = i;
     generate(n + 1);
     console.log("level ", n, " ", arr);
     navigate("/game", { state: { n: (n + 1), arr, attempts: 3 } });
+    }
   }
+
   function generate(n) {
     console.log("inside ", n);
     for (let i = 0; i < (n * n); i++) {
@@ -75,21 +80,23 @@ export default function Levelshower() {
   }
   return (
     <>
-      {
+
+      <div className="levelCont">
         <>
-          <div className="profiledropdown">
-            <button type="button" style={{ padding: "5px", backgroundColor: "blue", borderRadius: "20%" }} data-toggle="button" onClick={() => {
-              localStorage.setItem("Minwayemail", "");
-              localStorage.setItem("Minwaytoken", "");
-              console.log("Logout");
-              navigate("/");
-            }} aria-pressed="false" autocomplete="off"> logout </button>
+          <div onClick={() => {
+            localStorage.setItem("Minwayemail", "");
+            localStorage.setItem("Minwaytoken", "");
+            console.log("Logout");
+            navigate("/");
+          }} className="profiledropdown">
+
           </div>
         </>
-      }
-      <div className="levelCont">
         {level()}
       </div>
     </>
   )
+
+
+
 }
