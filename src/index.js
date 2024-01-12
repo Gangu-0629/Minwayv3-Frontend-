@@ -38,17 +38,14 @@ const routes = createBrowserRouter([
       {
         path:"multiplayer",
         element:<Notifymultiplayer/>,
-        children:[
-          {
-            path:"multigame",
-            element:<MultiGame/>
-          }
-        ]
       }
       ,
       {
         path: "game",
         element: <Gameboard />
+      },{
+        path:"multigame",
+        element:<MultiGame/>
       }
     ]
   }

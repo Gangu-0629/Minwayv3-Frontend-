@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router';
 import Api from '../Services/Api';
 
 export default function Levelshower() {
-  const location=useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
   const finish = [1, 2, 3, 4];
   let n = 0;
@@ -24,7 +24,7 @@ export default function Levelshower() {
         }
       }).then(rep => rep.data).then((rep) => {
         setUsername(rep.username);
-        setLevel(rep.level);
+        setLevel(prev => prev = rep.level);
         console.log(rep);
       })
     }
@@ -61,14 +61,14 @@ export default function Levelshower() {
     // if(last!=i-1){
     //   return;
     // }
-    if(i>{level}+1){
+    if (i > { level } + 1) {
       return;
-    }else{
-    console.log(i);
-    n = i;
-    generate(n + 1);
-    console.log("level ", n, " ", arr);
-    navigate("/game", { state: { n: (n + 1), arr, attempts: 3 } });
+    } else {
+      console.log(i);
+      n = i;
+      generate(n + 1);
+      console.log("level ", n, " ", arr);
+      navigate("/game", { state: { n: (n + 1), arr, attempts: 3 } });
     }
   }
 
@@ -94,7 +94,7 @@ export default function Levelshower() {
           </div>
         </>
         {level()}
-        <button onClick={()=>{navigate("/multiplayer",{state:{name:username}})}}>Multiplayer</button>
+        <button onClick={() => { navigate("/multiplayer", { state: { name: username } }) }}>Multiplayer</button>
       </div>
     </>
   )

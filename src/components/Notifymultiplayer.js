@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router';
+import { Navigate, useLocation, useNavigate } from 'react-router';
 import { over } from 'stompjs';
 import * as sockjs from 'sockjs-client';
+import MultiGame from './MultiGame';
 
 var stompclient = null;
 export default function Notifymultiplayer() {
+  const n = 7;
+  let arr = [];
+  const [forward, setForward] = useState([]);
+  const navigate = useNavigate();
   const locate = useLocation();
   const username = locate.state.name;
   const [waiting, setWaiting] = useState(false);
@@ -23,79 +28,96 @@ export default function Notifymultiplayer() {
     let sock = new sockjs("http://localhost:8081/ws");
     stompclient = over(sock);
     stompclient.connect({}, onConnected, onError);
-  }, [locate]);
-  const onConnected = () => 
-  {
-    stompclient.subscribe("/user/"+notify.sender+"/notification",onReceivingNotification);
-    stompclient.subscribe("/user/"+notify.sender+"/acceptance",onReceivingAcceptance);
+  }, [username]);
+  const onConnected = () => {
+
+      setTimeout(()=>stompclient.subscribe("/user/" + notify.sender + "/notification", onReceivingNotification),500);
+    setTimeout(()=>stompclient.subscribe("/user/" + notify.sender + "/acceptance", onReceivingAcceptance),500);
   }
-  const onReceivingNotification=(payload)=>
-  {
-    let payloaddata=JSON.parse(payload.body);
-    setReceiver(prev=>prev=payloaddata.sender);
+  const onReceivingNotification = (payload) => {
+    let payloaddata = JSON.parse(payload.body);
+    setReceiver(prev => prev = payloaddata.sender);
     setNotification(true);
     setWaiting(false);
     setAccept(false);
   }
-  const onReceivingAcceptance=(payload)=>
-  {
-    let payloadata=JSON.parse(payload.body);
-     setPlayers({...players,"player2":payloadata.sender});
-     setNotification(false);
-     setAccept(true);
-     setWaiting(false);
+  const onReceivingAcceptance = (payload) => {
+    let payloadata = JSON.parse(payload.body);
+    setPlayers({ ...players, "player2": payloadata.sender });
+    setForward(prev => prev = payloadata.arr);
+    console.log("accepatance ", arr);
+    setAccept(true);
+    setNotification(false);
+
+    setWaiting(false);
+    console.log("accepted");
+
   }
   const onError = (err) => {
     console.log(err);
   }
 
-  const handleSendNotification=()=>
-  {
-    if(stompclient!=null){
-      setNotify({...notify,"receiver":receiver});
+  const handleSendNotification = () => {
+    if (stompclient != null) {
+      setNotify({ ...notify, "receiver": receiver });
       console.log(notify);
-      stompclient.send("/app/sendNotifiaction",{},JSON.stringify({
-        sender:username,
-        receiver:receiver
+      stompclient.send("/app/sendNotifiaction", {}, JSON.stringify({
+        sender: username,
+        receiver: receiver
       }));
       setWaiting(true);
       setReceiver("");
     }
   }
-  const handleAccept=()=>
-  {
-    if(stompclient!=null){
-   
-      stompclient.send("/app/sendAcceptance",{},JSON.stringify(
+  const handleAccept = () => {
+    if (stompclient != null) 
+    {
+      generate(n);
+      setForward(prev => prev = arr);
+      stompclient.send("/app/sendAcceptance", {}, JSON.stringify(
         {
-          sender:username,
-          receiver:receiver
+          sender: username,
+          receiver: receiver,
+          arr: arr
         }
       ));
       setPlayers({
-        player1:username,
-        player2:receiver
+        player1: username,
+        player2: receiver
       })
       setWaiting(false);
       setAccept(true);
-         setReceiver("");
+      setReceiver("");
       setNotification(false);
+      console.log("acceptance", arr);
+      console.log("Accepted");
     }
   }
+
+  function generate(n) {
+    console.log("inside ", n);
+    for (let i = 0; i < (n * n); i++) {
+      arr.push(Math.floor(Math.random() * 10) + 1);
+    }
+    console.log("inside ", arr);
+  }
+
   return (
     <>
       <div className="notificationbox">
 
 
-   <h1>{username}</h1>
+        <h1>{username}</h1>
         {
           notification && <>
-          <h1>Notification from {receiver}</h1>
-          <button onClick={handleAccept}>Accept</button>
+            <h1>Notification from {receiver}</h1>
+            <button onClick={handleAccept}>Accept</button>
           </>
         }
         {
-          accept && <><h1>{JSON.stringify(players)}</h1></>
+          accept && <>
+            {console.log("arr ", arr)}
+            <MultiGame players={players} stompclient={stompclient} arr={forward} /> </>
         }
         {
           waiting && <><h1>Send the request waiting for acceptance</h1></>
@@ -103,12 +125,13 @@ export default function Notifymultiplayer() {
         {
           notification == false && accept == false && waiting == false &&
           <>
-            <input onChange={(e)=>{
+            <input onChange={(e) => {
               setReceiver(e.target.value);
             }} value={receiver} placeholder="Enter the player" type="text" />
             <button onClick={handleSendNotification} >send request</button>
           </>
         }
+
       </div>
     </>
 

@@ -22,7 +22,6 @@ export default function Gameboard() {
         setScore(0);
     }, [arr, attempt]);
     console.log("score ", score);
- 
     async function handleUpdatelevel(){
         const data = {
             email: localStorage.getItem("Minwayemail")
@@ -62,7 +61,6 @@ export default function Gameboard() {
             navigate("/");
         }
     }
-
     const FinalScore = useMemo(() => {
         console.log("Usememo");
         const duparr = [];
