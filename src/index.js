@@ -11,6 +11,9 @@ import Signup_in from './components/Signup_in';
 import Register from './components/Register';
 import Levelshower from './components/Levelshower';
 import ForgotPassword from './components/ForgotPassword';
+
+import Notifymultiplayer from './components/Notifymultiplayer';
+import MultiGame from './components/MultiGame';
 const routes = createBrowserRouter([
   {
     path: "/",
@@ -31,6 +34,16 @@ const routes = createBrowserRouter([
       {
         path: "levelshow",
         element: <Levelshower />
+      },
+      {
+        path:"multiplayer",
+        element:<Notifymultiplayer/>,
+        children:[
+          {
+            path:"multigame",
+            element:<MultiGame/>
+          }
+        ]
       }
       ,
       {

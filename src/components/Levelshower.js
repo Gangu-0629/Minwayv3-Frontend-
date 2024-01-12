@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router';
 import Api from '../Services/Api';
 
 export default function Levelshower() {
+  const location=useLocation();
   const navigate = useNavigate();
   const finish = [1, 2, 3, 4];
   let n = 0;
@@ -93,6 +94,7 @@ export default function Levelshower() {
           </div>
         </>
         {level()}
+        <button onClick={()=>{navigate("/multiplayer",{state:{name:username}})}}>Multiplayer</button>
       </div>
     </>
   )

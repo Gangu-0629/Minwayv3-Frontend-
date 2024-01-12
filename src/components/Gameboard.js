@@ -203,8 +203,8 @@ export default function Gameboard() {
                     console.log("Failure attempt : ", attempt);
                     if (attempt == 1) {
                         console.log("Attempt over");
-                        handledecreaselevel();
-                        navigate("/levelshow");
+                        handledecreaselevel().then(()=> navigate("/levelshow"));
+                       
                     }
                     else {
                         setAttempt((prev) => prev - 1);
