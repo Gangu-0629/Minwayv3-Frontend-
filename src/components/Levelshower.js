@@ -94,7 +94,7 @@ export default function Levelshower() {
           </div>
         </>
         {level()}
-        <button onClick={() => { navigate("/multiplayer", { state: { name: username } }) }}>Multiplayer</button>
+        <button className="multiplayerbuttton" onClick={() => { navigate("/multiplayer", { state: { name: username } }) }}>Multiplayer</button>
       </div>
     </>
   )

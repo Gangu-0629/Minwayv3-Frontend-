@@ -6,7 +6,7 @@ import MultiGame from './MultiGame';
 
 var stompclient = null;
 export default function Notifymultiplayer() {
-  const n = 7;
+  const n = 2;
   let arr = [];
   const [forward, setForward] = useState([]);
   const navigate = useNavigate();
@@ -31,8 +31,8 @@ export default function Notifymultiplayer() {
   }, [username]);
   const onConnected = () => {
 
-      setTimeout(()=>stompclient.subscribe("/user/" + notify.sender + "/notification", onReceivingNotification),500);
-    setTimeout(()=>stompclient.subscribe("/user/" + notify.sender + "/acceptance", onReceivingAcceptance),500);
+    setTimeout(() => stompclient.subscribe("/user/" + notify.sender + "/notification", onReceivingNotification), 500);
+    setTimeout(() => stompclient.subscribe("/user/" + notify.sender + "/acceptance", onReceivingAcceptance), 500);
   }
   const onReceivingNotification = (payload) => {
     let payloaddata = JSON.parse(payload.body);
@@ -70,8 +70,7 @@ export default function Notifymultiplayer() {
     }
   }
   const handleAccept = () => {
-    if (stompclient != null) 
-    {
+    if (stompclient != null) {
       generate(n);
       setForward(prev => prev = arr);
       stompclient.send("/app/sendAcceptance", {}, JSON.stringify(
@@ -106,29 +105,31 @@ export default function Notifymultiplayer() {
     <>
       <div className="notificationbox">
 
-
-        <h1>{username}</h1>
         {
           notification && <>
-            <h1>Notification from {receiver}</h1>
-            <button onClick={handleAccept}>Accept</button>
+            <div className="acceptdiv">
+              <h1> Notification from {receiver}</h1>
+              <button onClick={handleAccept}>Accept</button>
+            </div>
           </>
         }
         {
           accept && <>
             {console.log("arr ", arr)}
-            <MultiGame players={players} stompclient={stompclient} arr={forward} /> </>
+            <MultiGame players={players} n={n} stompclient={stompclient} arr={forward} /> </>
         }
         {
-          waiting && <><h1>Send the request waiting for acceptance</h1></>
+          waiting && <><h1 className="WaitingStage">Send the request waiting for acceptance....</h1></>
         }
         {
           notification == false && accept == false && waiting == false &&
           <>
-            <input onChange={(e) => {
-              setReceiver(e.target.value);
-            }} value={receiver} placeholder="Enter the player" type="text" />
-            <button onClick={handleSendNotification} >send request</button>
+            <div className="NotifyRequestcon">
+              <input className="requestnameinput" onChange={(e) => {
+                setReceiver(e.target.value);
+              }} value={receiver} placeholder="Enter the player" type="text" />
+              <button className="SendNotifyButton" onClick={handleSendNotification} >send request</button>
+            </div>
           </>
         }
 

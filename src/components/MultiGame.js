@@ -1,19 +1,22 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router'
+import { Link } from 'react-router-dom';
 
 export default React.memo(function MultiGame(props) {
   // const locate=useLocation();
-  const n = 7;
+  const n = props.n;
   const arr = props.arr;
+  arr[0] = 0;
   const players = props.players;
   const stompclient = props.stompclient;
-
   const [path, setPath] = useState([0]);
   const [pres, setpres] = useState(0);
   const [prev, setprev] = useState(-1);
   const [score, setScore] = useState(0);
   const [OtherPath, setOtherPath] = useState([0]);
   const [otherPres, setOtherPres] = useState(0);
+  const [winnerFound, setWinnerFound] = useState(false);
+  const [winnerName, setWinnerName] = useState("");
   console.log("players ;", players);
   console.log("stomp : ", stompclient);
 
@@ -24,8 +27,16 @@ export default React.memo(function MultiGame(props) {
     setOtherPath(pre => pre = payloadData.path);
     setOtherPres(pre => pre = payloadData.pres);
   }
+  const onReceivingWinner = (payload) => {
+    let payloaddata = JSON.parse(payload.body);
+    console.log("received winner");
+    setWinnerName(pre => pre = payloaddata.winner);
+    setWinnerFound(true);
+
+  }
   useEffect(() => {
-    setTimeout(()=>stompclient.subscribe("/user/" + players.player1 + "/receiveotherpath", onReceingPath),500);
+    setTimeout(() => stompclient.subscribe("/user/" + players.player1 + "/receiveotherpath", onReceingPath), 500);
+    setTimeout(() => stompclient.subscribe("/user/" + players.player1 + "/winnnerdeclared", onReceivingWinner), 500);
   }, [players])
 
 
@@ -81,15 +92,44 @@ export default React.memo(function MultiGame(props) {
         }
       }
     }
-    console.log(dp[0][0]);
+    console.log("finalscore-->", dp[0][0]);
     return dp[0][0];
   }
+  function handleWinner() {
+
+    stompclient.send("/app/sendWinner", {}, JSON.stringify({
+      player1: players.player1,
+      player2: players.player2,
+      winner: players.player1
+    }))
+    setWinnerName(pre => pre = players.player1);
+    setWinnerFound(true);
+
+  }
   return (
-    <div>
-      <div className="board">
-        {boardcreater(n)}
-      </div>
-    </div>
+    <>
+      {
+        winnerFound && <>
+          <div className="winnerbox">
+            <h1>{winnerName} - wins the game</h1>
+            <Link className="BackMultiplayerbutton" to={"/levelshow"}> home </Link>
+          </div>
+        </>
+      }
+      {
+        winnerFound == false && <> <div className="board">
+          {boardcreater(n)}
+        </div>
+
+          <div className="scorecard">
+            {score}
+
+          </div>
+
+        </>
+      }
+    </>
+
   )
   function boardcreater(n) {
     let content = [];
@@ -124,7 +164,7 @@ export default React.memo(function MultiGame(props) {
       </>
     }
     if (idx == otherPres) {
-      return <> <div key={idx} onClick={() => handleClick(idx)} className="boxes presentButton">
+      return <> <div key={idx} onClick={() => handleClick(idx)} className="boxes presentOpponentButton">
       </div>
       </>
     }
@@ -173,6 +213,7 @@ export default React.memo(function MultiGame(props) {
         console.log(score, "--", FinalScore);
         if (score + arr[idx] == FinalScore) {
           console.log("Success");
+          handleWinner();
         }
       }
     }

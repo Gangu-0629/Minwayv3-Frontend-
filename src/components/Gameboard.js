@@ -115,7 +115,6 @@ export default function Gameboard() {
                 </div>
 
                 <div className="scorecard">
-
                     {score}
                 </div>
 
